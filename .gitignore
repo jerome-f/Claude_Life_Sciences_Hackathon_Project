@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+
+# Data / large files
+*.log
+data/
+*.tmp
