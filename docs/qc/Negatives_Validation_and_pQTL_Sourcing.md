@@ -73,3 +73,29 @@ trans-pQTL (63% of signals) are genuine but must be handled separately from the 
 | `UKBPPP_Sun2023_supplementary_tables.xlsx` | — | Full Nature supplementary workbook (source) |
 
 Negatives outputs under `gs://claude_hackathon/dbnascent/20260711/`; pQTL under `gs://claude_hackathon/opentargets/20260711/pqtl_insample/`.
+
+---
+
+## Part 3 — UKB-PPP pQTL lifted to hg38 (harmonization complete)
+
+The ST16 in-sample pQTL credible sets (originally hg19) were lifted to **hg38** with the UCSC `hg19ToHg38.over.chain` (pyliftover), and variant IDs rebuilt into OT's `chr_pos_ref_alt` convention so they co-file directly with `ot_molecular_qtl_highconf.parquet`.
+
+### Liftover result
+| Metric | Value |
+|---|---|
+| Top variants lifted | 29,420 / 29,420 (**100%**) |
+| Credible-set variants lifted | 572,574 / 572,574 (**100%**) |
+| Unmapped / unparseable | 0 |
+
+### Independent validation against OT hg38 variant universe
+Exact-string match of lifted top variants against the OT credible_set variant universe (1,136,908 distinct hg38 IDs) — this validates **position AND allele orientation**, not just that a coordinate was produced:
+
+| | Signals | Exact match in OT hg38 |
+|---|---|---|
+| cis | 10,750 | 7,437 (69%) |
+| trans | 18,670 | 15,876 (85%) |
+
+69–85% of UKB-PPP top variants land exactly on a known OT hg38 variant ID — strong confirmation the liftover is correct (not all UKB-PPP pQTLs are OT credible-set members, so <100% is expected). Only **326 (1.1%)** matched solely under a ref/alt swap — an allele-ordering convention difference, carried as a known minor caveat, not a liftover error.
+
+### Status
+`ukbppp_st16_insample_pqtl_hg38.parquet` (adds `top_variantId_hg38`, `cs_variant_ids_hg38`, per-row lift status) is now **build- and ID-compatible with the OT molecular-QTL layer**. Remaining before a formal merge: confirm Olink protein → Ensembl mapping against the OT target table (gene symbol already parsed), and decide cis-only vs cis+trans inclusion for the protein channel.
