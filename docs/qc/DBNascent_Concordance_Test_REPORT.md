@@ -60,3 +60,28 @@ This is a **publishable finding on its own**: "genome-scale nascent co-transcrip
 | `dbnascent_concordance_test.png` | 3-panel figure (scatter, robustness forest, base-rate caveat) |
 
 CRISPRi benchmark staged to `gs://claude_hackathon/crispri_benchmark/20260711/`; results under `gs://claude_hackathon/dbnascent/20260711/`.
+
+
+---
+
+## Addendum — Magnitude concordance in commensurate (z-score) terms
+
+**Motivation (user):** the sign test is rank-based (unit-free), but the *magnitude* test in the primary analysis compared a raw correlation coefficient (`pcc`) against a raw log-fold-change — incommensurate scales, and `pcc` ignores per-pair measurement precision. DBNascent carries a precision-aware standardized statistic — the signed **t-statistic** (`t`), which upweights high-nObs pairs. Re-tested with `t`, cell-type-matched (blood<->K562), and restricted to well-measured pairs.
+
+**Result: the poor magnitude concordance was largely a measurement-noise artifact.**
+
+| Comparison | DBNascent metric | n (regulated) | Magnitude rho (abs metric vs abs effect) | p |
+|---|---|---|---|---|
+| Pooled, raw (primary test) | abs(pcc) | 466 | 0.070 | n.s. |
+| Blood x K562 matched | abs(pcc) | 291 | 0.118 | 0.044 |
+| Blood x K562 matched | abs(signed t) | 291 | 0.148 | 0.012 |
+| **Blood x K562, well-measured both sides** | **abs(pcc)** | 159 | **0.257** | 0.0011 |
+| **Blood x K562, well-measured both sides** | **abs(signed t)** | 159 | **0.324** | 3.1e-05 |
+
+"Well-measured both sides" = DBNascent nObs>=50 AND CRISPRi PowerAtEffectSize25>0.8. Magnitude concordance climbs from **0.07 (n.s.) -> 0.32 (p=3e-5)** once the readouts are put on comparable footing.
+
+**Sign vs magnitude — a metric division of labor.** For the *sign* call, raw `pcc` slightly outperforms the t-statistic (blood x K562: raw Spearman -0.286 vs signed-t -0.189; precision subset: -0.378 vs -0.318) — the t-stat inflates with nObs regardless of directional cleanliness, adding precision noise to a pure sign call. So: **use raw `pcc` for sign, signed `t` on well-measured pairs for magnitude.**
+
+**Revised design implication.** Caveat (2) in the main report is softened: DBNascent *does* carry quantitative magnitude information (rho~0.32), but only on the precision-filtered, cell-type-matched subset. A signed edge may therefore reasonably carry a **calibrated magnitude head**, not merely sign + abstention — trained on well-measured pairs, with confidence tied to measurement depth (nObs). Direction remains the primary, most robust signal.
+
+Output: `concordance_zscore.json` (all sign + magnitude statistics under raw-pcc, signed-t, and Stouffer-combined-z), `zscore_matched_bk.parquet`.
