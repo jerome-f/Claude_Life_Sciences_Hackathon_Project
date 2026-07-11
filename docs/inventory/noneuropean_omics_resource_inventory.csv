@@ -1,0 +1,16 @@
+resource,ancestry,omic,in_OT_2606,in_sample_finemapping,access,notes
+GEUVADIS,EUR + African (YRI),eQTL/sQTL/tuQTL,yes,yes (SuSiE in-sample),open,"19,901 eQTL + 6,502 tuQTL + 3,695 sQTL high-conf CS in OT; pooled EUR+YRI, ancestry not resolved per-CS"
+Quach_2016,African + European,eQTL/sQTL/tuQTL,yes,yes,open,"Largest non-EUR contributor already in OT: 60,672 eQTL + 14,806 tuQTL + 7,629 sQTL high-conf CS; monocytes, pooled"
+Nedelec_2016,African + European,eQTL/sQTL/tuQTL,yes,yes,open,"17,400 eQTL + 4,437 tuQTL + 2,242 sQTL; macrophage infection response, pooled"
+Nathan_2022,Peruvian (Admixed/Indigenous American),sc-eQTL,yes,yes,open,"10,879 sceQTL high-conf CS; memory T cells, TB cohort — the only substantially Indigenous-American QTL in OT"
+Perez_2022,East Asian + European,sc-eQTL,yes,yes,open,"1,835 sceQTL; SLE lupus mux-seq, 261 donors"
+Randolph_2021,African + European,sc-eQTL,yes,yes,open,"1,434 sceQTL; flu-response, ancestry-effect design"
+iPSCORE,Multi-ethnic (EUR/EAS/Hispanic/AA),eQTL/sQTL/tuQTL,yes,yes,open,"4,632 eQTL + 1,268 tuQTL + 876 sQTL; multi-ethnic iPSC panel"
+ImmuNexUT (Ota 2021),Japanese (East Asian),eQTL (28 immune cell types),no,"study did LD-based, re-finemappable",open (NBDC gated for indiv-level),"~10^6 eQTL, 337 donors; largest EAS immune eQTL; summary stats public"
+Japan Omics Browser / Kessoku,Japanese,eQTL + pQTL,no,yes (fine-mapped),open portal,"eQTL+pQTL fine-mapping in 1,405 Japanese; MPRA validation scores for >10k variants; japan-omics.jp"
+BioBank Japan (Sakaue 2021),Japanese,metabolite + biomarker GWAS,no,"yes (SuSiE, ST6)",open sumstats (pheweb.jp),"220 deep phenotypes incl. metabolites; 1,972 credible sets published; hg19"
+ARIC (Zhang 2022),African American + European American,pQTL (SomaScan 4877 proteins),no,re-finemappable,open sumstats,"1,871 AA + 7,213 EA; the main AA plasma pQTL resource; cis+trans"
+Jackson Heart Study (JHS),African American,pQTL (Olink ~3000 / SomaScan 1301),no,fine-mapped in study,"dbGaP gated (indiv), portal","1,002 pQTL / 925 proteins (Olink); African-enriched cis-pQTL; replicated in MESA"
+deCODE (Ferkingstad 2021),"Icelandic (European, distinct LD)",pQTL (SomaScan 4907),partial (as UKB-PPP-adjacent),in-sample,open sumstats,"35,559 Icelanders; distinct LD makes it a strong cross-cohort in-sample check vs UKB-PPP"
+Multi-ancestry brain pQTL (2025),African American + Hispanic/Latino + NHW,brain pQTL (MESuSiE),no,yes (MESuSiE multi-ancestry),open (Nat Genet ST),"1,362 brain proteomes; MESuSiE per-population causal pQTL — a rare multi-ancestry fine-mapped resource"
+MESA,Multi-ethnic (AA/Hispanic/EAS/EUR),eQTL/pQTL,no,re-finemappable,dbGaP gated,Multi-Ethnic Study of Atherosclerosis; replication cohort for JHS/ARIC pQTL
