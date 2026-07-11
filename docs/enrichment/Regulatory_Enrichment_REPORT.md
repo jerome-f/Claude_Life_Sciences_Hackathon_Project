@@ -43,9 +43,9 @@ causal signal?
 
 ## Reading the result
 
-1. **Promoter — 3.05× (p≈1e-108).** The strongest enrichment, as expected: promoter-proximal causal
+1. **Promoter — 3.0× (p≈1e-108).** The strongest enrichment, as expected: promoter-proximal causal
    variants are the easiest class and validate the design of a dedicated promoter head.
-2. **Enhancer-like (proximal 2.0× + distal 1.5×, both p<1e-120).** The largest bucket by far —
+2. **Enhancer-like (proximal 1.9× + distal 1.4×, both p<1e-120).** The largest bucket by far —
    24% of foreground variants overlap a distal enhancer. This is the class the enhancer/silencer head
    targets, and it is where the modeling effort should concentrate. **Note:** cCREs cannot separate
    activating enhancers from silencers (both are "enhancer-like" by chromatin signature); that
