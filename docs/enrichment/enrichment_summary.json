@@ -1,0 +1,10 @@
+{
+  "n_gwas_rows": 2191559,
+  "n_total_cs": 106547,
+  "n_sparse_cs": 51658,
+  "n_fg_variants": 27040,
+  "n_bg_variants": 182739,
+  "fg_ccre_hit_pct": 38.7,
+  "bg_ccre_hit_pct": 26.9,
+  "ccre_registry_n": 2345453
+}
