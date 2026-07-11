@@ -85,3 +85,27 @@ CRISPRi benchmark staged to `gs://claude_hackathon/crispri_benchmark/20260711/`;
 **Revised design implication.** Caveat (2) in the main report is softened: DBNascent *does* carry quantitative magnitude information (rho~0.32), but only on the precision-filtered, cell-type-matched subset. A signed edge may therefore reasonably carry a **calibrated magnitude head**, not merely sign + abstention — trained on well-measured pairs, with confidence tied to measurement depth (nObs). Direction remains the primary, most robust signal.
 
 Output: `concordance_zscore.json` (all sign + magnitude statistics under raw-pcc, signed-t, and Stouffer-combined-z), `zscore_matched_bk.parquet`.
+
+
+---
+
+## Addendum 2 — DC-TAP-seq independent replication (EngreitzLab DC_TAP_Paper)
+
+**Motivation:** test whether the ρ<0 concordance replicates on CRISPRi data that did *not* train ENCODE-rE2G, and whether adding DC-TAP-seq pairs powers up the underpowered repression/magnitude arms. Fetched the harmonized ENCODE-format GRCh38 per-CRE files (K562 n=7,475; WTC11 n=6,574), kept clean distal element→gene tests only (excluded promoter/TSS/gene-body/exon-targeting rows).
+
+**Result: directionally consistent, but DC-TAP is too narrow to add statistical power here.**
+
+| Test | n (sig) | Spearman ρ (pcc vs effect) | p |
+|---|---|---|---|
+| DC-TAP K562 × DBNascent blood (independent) | 8 | -0.29 | 0.49 (n.s.) |
+| DC-TAP WTC11 × DBNascent pooled | 16 | -0.19 | 0.48 (n.s.) |
+| **EPCrispr + DC-TAP K562 × blood (pooled)** | 334 | **-0.286** | 1.1e-07 |
+| **All CRISPRi (EPCrispr+DC-TAP) × DBNascent pooled** | 694 | **-0.229** | 1.0e-09 |
+
+**Honest read:**
+- **DC-TAP replicates the sign but cannot confirm it alone.** Both cell-type matches give negative ρ (K562 -0.29, WTC11 -0.19) — the predicted direction — but at n=8 and n=16 significant overlapping pairs, neither reaches significance. DC-TAP is a *deeply-powered but narrow* screen (tests few elements very rigorously), so it intersects the DBNascent transcribed-enhancer atlas in too few places.
+- **Pooling adds ~28 usable pairs, not a doubling.** Full pool n=694 vs 666 originally; pooled ρ=-0.229 is unchanged from the primary −0.224. The earlier expectation that DC-TAP would roughly double the regulated-pair count was wrong — the EPCrisprBenchmark already dominates the intersection.
+- **The repression arm barely moved** (73 significant repressive pairs vs 69 before; both-repressive 2×2 cell 12→14). DC-TAP did not rescue repression validation.
+- **One encouraging signal:** in the well-matched K562+DC-TAP pool, the magnitude concordance using signed-t holds (|t| vs |effect| ρ=0.156, p=0.007, n=299 regulated), and DC-TAP WTC11 alone shows |pcc| magnitude ρ=0.55 (p=0.04) — consistent with Addendum 1.
+
+**Conclusion:** the concordance verdict is **unchanged and independently corroborated in sign** by DC-TAP, but DC-TAP is the wrong instrument to power up this intersection. To firm up the **repression** arm specifically, the right source is a repression-enriched perturbation set (e.g. silencer/CTCF-element screens), not another activating-dominated CRISPRi screen. DC-TAP staged to `gs://claude_hackathon/crispri_benchmark/20260711/dc_tap/`; stats in `concordance_dctap.json`.
