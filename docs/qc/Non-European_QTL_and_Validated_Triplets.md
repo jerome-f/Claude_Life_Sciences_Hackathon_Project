@@ -61,7 +61,7 @@ OT ingests **ENCODE-rE2G** (Gschwind et al. 2023) — the field-standard enhance
 
 | Resource | Layer | Evidence | N | Access |
 |---|---|---|---|---|
-| **ENCODE-rE2G CRISPRi benchmark** | E2G | CRISPRi element-gene | 10,411 tested / 1,075 pos | Synapse syn53018671 (open) |
+| **ENCODE-rE2G CRISPRi benchmark** | E2G | CRISPRi element-gene | 10,411 tested / 1,075 pos | EngreitzLab/CRISPR_comparison GitHub repo (open); exact Synapse mirror ID unverified |
 | **cS2G** (Gazal 2022) | V2G2T | calibrated SNP-gene-disease | 7,111 triplets, mean PIP 0.80 | open |
 | **Psychiatric MPRA** (Cell 2025) | V2G2T | MPRA+eQTL+HiC+CRISPR | 8 disorders | open |
 | **MPRAu 3'UTR** (Griesemer 2021) | V2G | MPRA 3'UTR causal variants | thousands, 2 CRISPR-confirmed | open |
