@@ -254,6 +254,6 @@ inclusive-plot-style (separate-legend rule tightened), python-data-style (polars
 - **v2g_model_design_doc.md** `0d03c3f6-f1ae-4117-be56-6d1108b7608e` / `1edcac24-331b-474b-a27a-71ad9b466df6` — the consolidated model design.
 - **DBNascent_Concordance_Test_REPORT.md** `d00fddd8-...` / `0f5c34aa-777f-45a7-af91-d637e6c20027` — the gate result.
 - **Regulatory_Enrichment_REPORT.md** `989a98eb-...` / `56033326-...` — this session's diagnostic.
-- **V2G2T_Data_Inventory.pdf** `6de4154a-...` / `501a13e1-4b4c-...` (v501a13e1) — the full dedup inventory.
+- **V2G2T_Data_Inventory.pdf** `6de4154a-50b9-47ca-b13e-b91a227b9a0c` / `501a13e1-84c9-4bbf-91dd-23aa12366541` — the full dedup inventory.
 - **DATA_DICTIONARY.md** `1d41bf62-...` / `3d6e5374-...` — schema definitions.
 - Papers on disk: AoU MultiSuSiE s41588-025-02450-5.pdf (`5bc19828-...`), DBNascent s12864-025-11568-z.pdf (`62ae987c-...`).
