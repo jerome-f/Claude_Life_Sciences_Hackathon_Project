@@ -1,0 +1,48 @@
+{
+ "benchmark": {
+  "n_loci": 1160,
+  "source": "Open Targets L2G gold standard (Mountjoy 2021) x OT Platform 26.06 coloc",
+  "coloc_positive_pct": 24.5,
+  "coloc_wrong_pct": 30.9,
+  "coloc_silent_pct": 44.7,
+  "winnable_pct": 75.6
+ },
+ "model_v5_heldout": {
+  "link_AUPRC": 0.5834,
+  "link_AUROC": 0.6109,
+  "sign_rep_AUROC": 0.6054,
+  "gene_prioritization_p1": 0.7289,
+  "distance_p1": 0.7188,
+  "MRR": 0.8108
+ },
+ "locus_nomination": {
+  "n_eligible": 1145,
+  "e2g_p1": 0.221,
+  "distance_p1": 0.477,
+  "union_p1": 0.511,
+  "e2g_only_correct": 39,
+  "e2g_only_silent": 18,
+  "by_coloc": {
+   "SILENT": {
+    "e2g": 0.264,
+    "dist": 0.594,
+    "union": 0.629,
+    "e2g_add": 18
+   },
+   "WRONG": {
+    "e2g": 0.07,
+    "dist": 0.149,
+    "union": 0.183,
+    "e2g_add": 12
+   },
+   "POSITIVE": {
+    "e2g": 0.332,
+    "dist": 0.678,
+    "union": 0.71,
+    "e2g_add": 9
+   }
+  }
+ },
+ "interpretation": "Distance is a strong baseline and beats naive E2G locus nomination in aggregate (OOD use); E2G value is COMPLEMENTARY \u2014 39 effectors recovered that distance misses (18 coloc-silent, incl GLP1R/MYC/SNCA/VDR/PTHLH/MAPK8), plus a regulatory SIGN call (repressive AUROC 0.605) that neither coloc nor distance provides.",
+ "cate": "per-token CNN->cross-attention model, 6.4M params, training in progress at report time (epoch 1, loss 1.68->1.30)"
+}

@@ -1,0 +1,36 @@
+{
+ "n_test": 4015948,
+ "link_prev": 0.4697,
+ "link": {
+  "AUPRC": 0.5834,
+  "AUROC": 0.6109
+ },
+ "sign_repressive": {
+  "AUPRC": 0.3147,
+  "AUROC": 0.6054,
+  "n": 1721436,
+  "rep_prev": 0.2261
+ },
+ "gene_prioritization": {
+  "n_genes": 7666,
+  "model_precision_at_1": 0.7289,
+  "model_MRR": 0.8108,
+  "distance_precision_at_1": 0.7188
+ },
+ "test_split": {
+  "human_chroms": [
+   "chr16",
+   "chr2",
+   "chr22",
+   "chr9"
+  ],
+  "mouse_chroms": [
+   "chr2",
+   "chr9",
+   "chrX"
+  ],
+  "definition": "v4 split_v4=='test' parquet (held out from v5 training)"
+ },
+ "validation": "LINK AUPRC 0.5834 / AUROC 0.6109 reproduces v5's reported test 0.583/0.6108 to within 0.0001, and SIGN 0.3147/0.6054 reproduces 0.3147/0.6053 \u2014 confirms the PCA-613 projection from the v4 basis (components+mean, raw human restored via human_mean, single v4 transform) is exact.",
+ "notes": "v5 (pooled two-tower, PCA-613) on the TRUE held-out test split. An earlier run mistakenly pooled train+val+test and filtered chr3/chr13 (which are v5 TRAIN chromosomes) \u2014 that leaked and is discarded. Gene prioritization: for each gene with >=2 candidate enhancers and >=1 true link in the held-out set, rank candidates by predicted link prob; precision@1 and MRR vs a nearest-enhancer (distance) baseline. Model edge over distance is modest (+1.0pt p@1) but real, and the model adds SIGN (repressive AUROC 0.605) which distance cannot provide."
+}

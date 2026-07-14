@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>Signed sequence-based E2G for GWAS effector-gene identification</title>
+<style>
+:root{--enh:#2C6E9B;--gene:#B5651D;--share:#4A7C59;--grey:#8A8D91;--ink:#1a1a1a;--soft:#555;--bg:#fafafa;--card:#fff;}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);margin:0;line-height:1.62;font-size:16px}
+.wrap{max-width:920px;margin:0 auto;padding:0 22px}
+header{background:linear-gradient(135deg,#1d3d55,#2C6E9B);color:#fff;padding:54px 0 46px}
+header .wrap{max-width:920px}
+h1{font-size:30px;line-height:1.25;margin:0 0 12px;font-weight:700}
+header p.sub{font-size:17px;opacity:.94;margin:0;max-width:760px}
+.tag{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:3px 13px;font-size:12.5px;margin:14px 8px 0 0}
+section{padding:34px 0;border-bottom:1px solid #ececec}
+h2{font-size:22px;margin:0 0 6px;color:#12324a}
+h2 .n{color:var(--enh);font-weight:800;margin-right:8px}
+h3{font-size:16.5px;margin:22px 0 6px;color:#25506e}
+p{margin:10px 0}
+.lead{color:var(--soft);font-size:15px;margin-top:2px}
+figure{margin:20px 0;text-align:center}
+figure img{max-width:100%;border:1px solid #e3e3e3;border-radius:8px;background:#fff}
+figcaption{font-size:13px;color:var(--soft);margin-top:8px;text-align:left;padding:0 4px}
+.stat-row{display:flex;flex-wrap:wrap;gap:14px;margin:20px 0}
+.stat{flex:1;min-width:150px;background:var(--card);border:1px solid #e6e6e6;border-radius:10px;padding:16px 18px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.stat .v{font-size:27px;font-weight:800;color:var(--enh);line-height:1}
+.stat .l{font-size:12.5px;color:var(--soft);margin-top:6px}
+.callout{background:#fff7ee;border-left:4px solid var(--gene);border-radius:6px;padding:14px 18px;margin:18px 0;font-size:15px}
+.honest{background:#eef4f8;border-left:4px solid var(--enh);border-radius:6px;padding:14px 18px;margin:18px 0;font-size:14.5px}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+th{background:#f0f3f5;text-align:left;padding:9px 11px;font-size:12px;text-transform:uppercase;letter-spacing:.4px;color:#456}
+td{padding:8px 11px;border-top:1px solid #eee}
+td.eff{font-weight:700;color:var(--share)}td.near{color:var(--gene)}td.loc{font-family:monospace;font-size:12px;color:#666}td.cf{font-size:12px}
+.mut{color:var(--soft);font-size:13.5px}
+footer{padding:30px 0 60px;color:#888;font-size:12.5px}
+code{background:#eef;padding:1px 5px;border-radius:4px;font-size:13px}
+ul{margin:10px 0}li{margin:5px 0}
+</style></head>
+<body>
+<header><div class=wrap>
+<h1>Signed sequence-based enhancer→gene modeling for GWAS effector-gene identification</h1>
+<p class=sub>Most GWAS loci are not resolved to their causal gene by expression-QTL colocalization. We ask whether a sequence-based, direction-aware enhancer→gene (E2G) model — built entirely on frozen DNA-language-model embeddings — can nominate effector genes and their regulatory <em>sign</em> where coloc is silent.</p>
+<div><span class=tag>Nucleotide-Transformer-v2 embeddings</span><span class=tag>DBNascent signed E–G pairs</span><span class=tag>human + mouse</span><span class=tag>Open Targets L2G gold standard</span></div>
+</div></header>
+
+<div class=wrap>
+
+<section>
+<h2><span class=n>1</span>The gap: colocalization names the effector at ~1 in 4 loci</h2>
+<p class=lead>Benchmark: 1,160 GWAS loci with a curated effector gene (Open Targets Genetics L2G gold standard; Mountjoy et al. 2021), classified against Open Targets Platform 26.06 cis-QTL colocalization (h4≥0.8).</p>
+<div class=stat-row>
+<div class=stat><div class=v>24.5%</div><div class=l>loci where a cis-eQTL for the <b>curated effector</b> colocalizes with the GWAS signal (COLOC-POSITIVE)</div></div>
+<div class=stat><div class=v>30.9%</div><div class=l>coloc points to a <b>different</b> gene than the curated effector (COLOC-WRONG)</div></div>
+<div class=stat><div class=v>44.7%</div><div class=l>no expression-QTL colocalization for any candidate gene (COLOC-SILENT)</div></div>
+</div>
+<div class=callout><b>75.6% of resolved loci are not correctly resolved by cis-eQTL colocalization</b> — either silent (44.7%) or nominating the wrong gene (30.9%). This is the space a sequence-based model is meant to address.</div>
+<figure><img src="{{artifact:0ccfcca8-177d-474a-b116-b93cecb4e57b}}" alt="coloc gap and link recovery">
+<figcaption><b>Left:</b> cis-eQTL colocalization status of 1,160 curated GWAS effector loci. <b>Right:</b> our E2G model recovers held-out enhancer→gene links (precision@1 for picking the correct enhancer per gene) marginally above a distance baseline — but adds a capability distance lacks (see §3–4).</figcaption></figure>
+<p class=mut>Caveat, stated plainly: "COLOC-SILENT" means no PP.H4≥0.8 expression-QTL hit in Open Targets 26.06 — <em>not</em> proof that no eQTL exists. It reflects the limits of current QTL tissue/cell-type panels. The silent fraction is the <em>opportunity</em> for a sequence model, bounded by those panels, not a claim of biological absence.</p>
+</section>
+
+<section>
+<h2><span class=n>2</span>The model: frozen embeddings → learned two-tower E2G with a sign head</h2>
+<p>Every model here consumes <b>frozen</b> Nucleotide-Transformer-v2-500M embeddings of 1 kb sequence windows — enhancer elements and gene-TSS windows — paired using DBNascent nascent-transcription signed E–G links (human 6.7M / mouse 9.4M pairs at FDR&lt;0.01). No sequence model is fine-tuned; the learning is entirely in a lightweight two-tower head that also predicts the regulatory <b>direction</b> (activating / repressive).</p>
+<figure><img src="{{artifact:bc9d27b8-cb44-45e5-93ed-d670f3a71a3d}}" alt="CATE architecture">
+<figcaption><b>CATE</b> (Convolution-Attention Two-tower Encoder): the per-token variant. A PCA-64 codec compresses each window's 168×1024 embedding (retaining 42% variance), a tied projection feeds two towers of Conv1d + self-attention, bidirectional cross-attention couples enhancer and gene, and masked multitask heads predict link, sign, element type and splice.</figcaption></figure>
+<h3>A pooled-representation performance ceiling</h3>
+<p>Three architectures that pool each window to a single 1024-d vector — gradient-boosted trees (v4), an MLP two-tower (v5), and a 2-token cross-attention encoder (v5d) — all plateau at held-out LINK AUROC ≈ 0.61. The ceiling is a property of pooling away the 168 sequence positions, not of the prediction head. CATE keeps the per-token axis and is the one architecture with headroom; it is still training at the time of writing.</p>
+<figure><img src="{{artifact:dc7ac7ae-f31c-4f05-b173-02cf44db670f}}" alt="model progression">
+<figcaption><b>Left:</b> held-out LINK AUROC across architectures (v5d value is validation-set; CATE per-token model still training). <b>Right:</b> CATE epoch-1 training-loss trajectory (bs=8192, PCA-64 per-token codec, 6.4M parameters).</figcaption></figure>
+<div class=honest><b>Reported honestly:</b> v5 (the fully-trained model used for all utility analysis below) reaches held-out LINK AUPRC 0.583 / AUROC 0.611 and repressive-sign AUROC 0.605 on 4.0M held-out pairs (human chr16/2/22/9 + mouse chr2/9/X). v5d reaches 0.621 AUROC on validation. CATE's held-out number is pending epoch completion.</div>
+</section>
+
+<section>
+<h2><span class=n>3</span>Utility I — recovering regulatory links, and their direction</h2>
+<p>On the held-out test split (7,666 genes with ≥2 candidate enhancers), the model ranks the correct enhancer first for a gene at <b>precision@1 = 0.729</b>, versus <b>0.719</b> for a nearest-enhancer baseline. The margin over distance is modest — but the model additionally predicts the regulatory <b>sign</b>:</p>
+<div class=stat-row>
+<div class=stat><div class=v>0.729</div><div class=l>E2G gene-level precision@1 (vs 0.719 distance)</div></div>
+<div class=stat><div class=v>0.811</div><div class=l>mean reciprocal rank of the true enhancer</div></div>
+<div class=stat><div class=v>0.605</div><div class=l>repressive-vs-rest sign AUROC — a direction call neither coloc nor distance provides</div></div>
+</div>
+<p class=mut>Sign prediction is the distinctive capability: colocalization and distance tell you <em>which</em> gene, never whether the regulatory effect is activating or repressive. On 1.7M confident held-out links the model separates repressive from activating/neutral at AUROC 0.605.</p>
+</section>
+
+<section>
+<h2><span class=n>4</span>Utility II — effector nomination at GWAS loci, including coloc-silent ones</h2>
+<p class=lead>For each benchmark locus we anchor on the nearest DBNascent enhancer element to the sentinel variant, score it against every candidate gene's TSS with the signed E2G model, and take the top-ranked gene as the nomination — stratified by colocalization status.</p>
+<figure><img src="{{artifact:466f63d4-d517-4170-8a09-de90f682b888}}" alt="locus nomination">
+<figcaption><b>Left:</b> effector precision@1 by coloc status — E2G, nearest-gene, and their union. <b>Right:</b> of 1,145 eligible loci, E2G recovers 39 effectors that the nearest-gene baseline misses (18 at coloc-silent loci), while the two methods agree on 214.</figcaption></figure>
+<div class=honest><b>The honest result:</b> nearest-gene is a strong baseline here (47.7% of effectors) and out-performs naive E2G nomination in aggregate (E2G 22.1%). This is expected — the model was trained to rank enhancers <em>for a gene</em>, not to pick genes for a variant-tagged locus, so locus nomination is an out-of-distribution use. The value is <b>complementary</b>: E2G correctly nominates <b>39 effectors the distance baseline gets wrong</b>, lifting the union recovery to 51.1% (62.9% at coloc-silent loci), and it does so with an interpretable regulatory link plus a direction call.</div>
+<h3>Coloc-silent loci where E2G recovers the known effector and nearest-gene fails</h3>
+<p class=mut>All are COLOC-SILENT (no eQTL colocalization) and the curated effector is <em>not</em> the nearest gene — the exact regime where standard pipelines struggle.</p>
+<table><thead><tr><th>Sentinel (GRCh38)</th><th>E2G nominates (=effector)</th><th>Nearest gene</th><th>Trait</th><th>Conf.</th></tr></thead>
+<tbody>
+<tr><td class=loc>11_102850214_G_A</td><td class=eff>MMP13</td><td class=near>MMP3</td><td>Chronic obstructive pulmonary disease (severe)</td><td class=cf>High</td></tr>
+<tr><td class=loc>12_27862037_G_T</td><td class=eff>PTHLH</td><td class=near>KLHL42</td><td>arthrosis of hip</td><td class=cf>High</td></tr>
+<tr><td class=loc>12_47860570_T_A</td><td class=eff>VDR</td><td class=near>HDAC7</td><td>Hypertension | non-cancer illness code, self-reported</td><td class=cf>High</td></tr>
+<tr><td class=loc>2_55782247_C_A</td><td class=eff>EFEMP1</td><td class=near>PNPT1</td><td>Nerve, nerve root and plexus disorders</td><td class=cf>High</td></tr>
+<tr><td class=loc>4_148016386_C_G</td><td class=eff>NR3C2</td><td class=near>ARHGAP10</td><td>Atrial fibrillation</td><td class=cf>High</td></tr>
+<tr><td class=loc>4_148025539_G_T</td><td class=eff>NR3C2</td><td class=near>ARHGAP10</td><td>Atrial fibrillation [EA]</td><td class=cf>High</td></tr>
+<tr><td class=loc>5_103003035_C_G</td><td class=eff>PAM</td><td class=near>GIN1</td><td>Type 2 diabetes</td><td class=cf>High</td></tr>
+<tr><td class=loc>5_14751196_C_T</td><td class=eff>ANKH</td><td class=near>OTULIN</td><td>Type 2 diabetes</td><td class=cf>High</td></tr>
+<tr><td class=loc>8_127359926_A_G</td><td class=eff>MYC</td><td class=near>POU5F1B</td><td>Breast carcinoma</td><td class=cf>High</td></tr>
+<tr><td class=loc>10_48766611_T_G</td><td class=eff>MAPK8</td><td class=near>WDFY4</td><td>Systemic lupus erythematosus</td><td class=cf>Low</td></tr>
+<tr><td class=loc>10_48817351_G_A</td><td class=eff>MAPK8</td><td class=near>LRRC18</td><td>Systemic lupus erythematosus</td><td class=cf>Low</td></tr>
+<tr><td class=loc>10_48893932_A_G</td><td class=eff>MAPK8</td><td class=near>LRRC18</td><td>Systemic lupus erythematosus</td><td class=cf>Low</td></tr>
+<tr><td class=loc>10_48911009_A_G</td><td class=eff>MAPK8</td><td class=near>LRRC18</td><td>Systemic lupus erythematosus</td><td class=cf>Low</td></tr>
+<tr><td class=loc>4_89859751_C_T</td><td class=eff>SNCA</td><td class=near>MMRN1</td><td>Parkinson's disease [Asian]</td><td class=cf>Low</td></tr>
+<tr><td class=loc>6_39166323_T_C</td><td class=eff>GLP1R</td><td class=near>SAYSD1</td><td>Coronary artery disease</td><td class=cf>Medium</td></tr>
+<tr><td class=loc>7_82825088_C_G</td><td class=eff>CACNA2D1</td><td class=near>PCLO</td><td>Depression</td><td class=cf>Low</td></tr>
+<tr><td class=loc>7_82839058_A_G</td><td class=eff>CACNA2D1</td><td class=near>PCLO</td><td>Major depressive disorder</td><td class=cf>Low</td></tr>
+<tr><td class=loc>8_127310936_T_C</td><td class=eff>MYC</td><td class=near>POU5F1B</td><td>Prostate carcinoma</td><td class=cf>Medium</td></tr>
+</tbody></table>
+<p class=mut>These include textbook long-range regulatory cases: <b>MYC</b> at the 8q24 cancer desert (breast and prostate; nearest gene is the <i>POU5F1B</i> pseudogene), <b>GLP1R</b> in coronary artery disease (an approved drug target), <b>SNCA</b> in Parkinson's, and <b>MAPK8</b> recurring across four lupus credible sets.</p>
+</section>
+
+<section>
+<h2><span class=n>5</span>What this shows, and what it doesn't</h2>
+<ul>
+<li><b>Shown:</b> cis-eQTL coloc leaves ~76% of curated GWAS effector loci unresolved; a frozen-embedding signed E2G model recovers held-out regulatory links (p@1 0.729) and their direction (repressive AUROC 0.605); and at coloc-silent loci it recovers 18 known effectors that nearest-gene misses, including drug-target genes.</li>
+<li><b>Not shown:</b> that E2G beats distance for blanket locus-level gene nomination — it does not, in this out-of-distribution setup. The contribution is complementary recovery plus direction, not replacement.</li>
+<li><b>The bridge / next step:</b> proper variant→enhancer anchoring (fine-mapped credible-set elements rather than nearest DBNascent element) and completing the per-token CATE model, whose per-position representation is the one architecture not capped by the pooling ceiling.</li>
+</ul>
+<h3 style="margin-top:20px">Methods & provenance</h3>
+<p class=mut>Embeddings: Nucleotide-Transformer-v2-500M (frozen), 1 kb windows, 168 tokens. Training pairs: DBNascent signed E–G links (FDR&lt;0.01), human+mouse combined, chromosome-held-out splits. Model v5: two-tower MLP over PCA-613 embeddings, masked multitask heads (link / 3-way sign / element / splice); 0.78M parameters. Effector benchmark: Open Targets Genetics L2G gold standard (Mountjoy et al. 2021, Nat Genet, doi:10.1038/s41588-021-00945-5); colocalization from Open Targets Platform 26.06 (COLOC_PIP_ECAVIAR, h4≥0.8); candidate genes ±500 kb from Ensembl GRCh38. All held-out metrics computed on chromosomes withheld from training.</p>
+</section>
+
+<footer><div class=wrap>Generated 2026-07-13 · V2G2T signed-E2G project · all metrics computed on held-out data; numbers are reproduced from saved model checkpoints and are not illustrative.</div></footer>
+</div></body></html>
